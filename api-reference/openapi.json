@@ -21,6 +21,7 @@
   "paths": {
     "/plants": {
       "get": {
+        "x-mcp": true,
         "description": "Returns all plants from the system that the user has access to",
         "parameters": [
           {
@@ -60,6 +61,7 @@
         }
       },
       "post": {
+        "x-mcp": true,
         "description": "Creates a new plant in the store",
         "requestBody": {
           "description": "Plant to add to the store",
@@ -98,6 +100,7 @@
     },
     "/plants/{id}": {
       "delete": {
+        "x-mcp": true,
         "description": "Deletes a single plant based on the ID supplied",
         "parameters": [
           {
