@@ -1,4 +1,16 @@
 ---
-title: 'Delete Plant'
-openapi: 'DELETE /plants/{id}'
+title: "Delete Agent"
+openapi: "DELETE /api/v1/agents"
 ---
+
+Delete an AI agent by ID. Pass the ID as a query parameter.
+
+<ParamField query="id" type="string" required>
+The agent ID to delete.
+</ParamField>
+
+<ResponseExample>
+```json 204 No Content
+{}
+```
+</ResponseExample>

@@ -1,4 +1,30 @@
 ---
-title: 'Get Plants'
-openapi: 'GET /plants'
+title: "List Properties"
+openapi: "GET /api/v1/properties"
 ---
+
+Use this endpoint to list properties with pagination.
+
+<ParamField query="limit" type="integer" default="50">
+Max results to return (1-200).
+</ParamField>
+
+<ParamField query="cursor" type="string">
+Pagination cursor from a previous response.
+</ParamField>
+
+<ResponseExample>
+```json 200 OK
+{
+  "data": [
+    {
+      "id": "prop_123",
+      "name": "Lakeside Apartments",
+      "address": "123 Lake St",
+      "units": 120
+    }
+  ],
+  "next_cursor": null
+}
+```
+</ResponseExample>

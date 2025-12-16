@@ -1,16 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "CasaAI API",
+    "description": "APIs for properties, tenants, maintenance, workflows, agents, finance, and documents.",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.casaai.dev"
     }
   ],
   "security": [
@@ -19,41 +16,48 @@
     }
   ],
   "paths": {
-    "/plants": {
+    "/api/v1/properties": {
       "get": {
-        "x-mcp": true,
-        "description": "Returns all plants from the system that the user has access to",
+        "summary": "List properties",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
-            "description": "The maximum number of results to return",
             "schema": {
               "type": "integer",
-              "format": "int32"
-            }
+              "format": "int32",
+              "default": 50
+            },
+            "description": "Max results to return"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cursor for pagination"
           }
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "List of properties",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Property"
+                      }
+                    },
+                    "next_cursor": {
+                      "type": "string",
+                      "nullable": true
+                    }
                   }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -61,36 +65,24 @@
         }
       },
       "post": {
-        "x-mcp": true,
-        "description": "Creates a new plant in the store",
+        "summary": "Create property",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/NewProperty"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
-          "200": {
-            "description": "plant response",
+          "201": {
+            "description": "Property created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/Property"
                 }
               }
             }
@@ -98,33 +90,145 @@
         }
       }
     },
-    "/plants/{id}": {
+    "/api/v1/tenants": {
+      "post": {
+        "summary": "Create or update tenant/applicant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewTenant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tenant created/updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/maintenance": {
+      "post": {
+        "summary": "Create maintenance ticket",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewMaintenanceTicket"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceTicket"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/run": {
+      "post": {
+        "summary": "Run a workflow (screening, maintenance, reminders)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowRun"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Workflow run accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowRunResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agents": {
+      "get": {
+        "summary": "List agents",
+        "responses": {
+          "200": {
+            "description": "Agent list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Agent"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
-        "x-mcp": true,
-        "description": "Deletes a single plant based on the ID supplied",
+        "summary": "Delete an agent",
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
+            "in": "query",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+            "description": "Agent deleted"
+          }
+        }
+      }
+    },
+    "/api/v1/financial/exports": {
+      "post": {
+        "summary": "Schedule or trigger KPI export",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KpiExport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Export scheduled or started",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/KpiExportResponse"
                 }
               }
             }
@@ -134,22 +238,21 @@
     }
   },
   "webhooks": {
-    "/plant/webhook": {
+    "/webhooks/workflow": {
       "post": {
-        "description": "Information about a new plant added to the store",
+        "description": "Workflow run events (e.g., screening decisions, maintenance dispatches)",
         "requestBody": {
-          "description": "Plant added to the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/WorkflowEvent"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Acknowledged"
           }
         }
       }
@@ -157,55 +260,288 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
+      "Property": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "units": {
+            "type": "integer"
+          }
+        }
+      },
+      "NewProperty": {
+        "type": "object",
         "required": [
           "name"
         ],
-        "type": "object",
         "properties": {
           "name": {
-            "description": "The name of the plant",
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
+          "address": {
+            "type": "string"
+          },
+          "units": {
+            "type": "integer"
+          }
+        }
+      },
+      "Tenant": {
+        "type": "object",
+        "required": [
+          "tenant_id",
+          "name"
+        ],
+        "properties": {
+          "tenant_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "unit_id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "conditional",
+              "declined"
+            ]
+          }
+        }
+      },
+      "NewTenant": {
+        "type": "object",
+        "required": [
+          "tenant_id",
+          "name"
+        ],
+        "properties": {
+          "tenant_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "unit_id": {
+            "type": "string"
+          },
+          "contact": {
+            "type": "string"
+          },
+          "income_docs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id_doc": {
             "type": "string"
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
+      "MaintenanceTicket": {
+        "type": "object",
         "required": [
-          "error",
-          "message"
+          "ticket_id",
+          "unit_id",
+          "description"
         ],
+        "properties": {
+          "ticket_id": {
+            "type": "string"
+          },
+          "unit_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "emergency",
+              "urgent",
+              "standard"
+            ]
+          },
+          "vendor_assigned": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "NewMaintenanceTicket": {
+        "type": "object",
+        "required": [
+          "ticket_id",
+          "unit_id",
+          "description"
+        ],
+        "properties": {
+          "ticket_id": {
+            "type": "string"
+          },
+          "unit_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "priority_hint": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkflowRun": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "screening",
+              "maintenance",
+              "rent_reminder"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "ruleset": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "WorkflowRunResult": {
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
+          "run_id": {
             "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "failed"
+            ]
+          }
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "screening",
+              "maintenance",
+              "finance",
+              "document"
+            ]
+          }
+        }
+      },
+      "KpiExport": {
+        "type": "object",
+        "required": [
+          "destination",
+          "kpis"
+        ],
+        "properties": {
+          "destination": {
+            "type": "string",
+            "enum": [
+              "s3",
+              "webhook",
+              "drive"
+            ]
+          },
+          "bucket": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "kpis": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "schedule": {
+            "type": "string",
+            "nullable": true,
+            "description": "Cron expression"
+          }
+        }
+      },
+      "KpiExportResponse": {
+        "type": "object",
+        "properties": {
+          "export_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkflowEvent": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "run_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
           }
         }
       }

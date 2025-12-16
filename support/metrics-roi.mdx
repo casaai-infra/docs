@@ -1,0 +1,45 @@
+---
+title: "Metrics & ROI"
+description: "Measure the impact of CasaAI and track ROI across operations and finance."
+---
+
+## What to measure
+
+- Efficiency: time to screen, time to dispatch, time to close tickets.
+- Finance: delinquency rate, NOI variance, recovery rate, SLA cost impact.
+- Experience: response times, tenant satisfaction (CSAT/NPS), vendor on-time rate.
+
+## Where to view metrics
+
+- CasaBoard dashboards: occupancy, delinquency, SLA, NOI.
+- Activity log: workflow runs, notifications, dispatches, exports.
+- Exports: `/api/v1/financial/exports` to S3/Drive/webhook for BI.
+
+## Sample baselines and targets
+
+- Tenant screening time: baseline 2-3 days → target < 4 hours.
+- Maintenance SLA: baseline 72h → target < 24h for standard, < 4h for urgent.
+- Delinquency rate: baseline X% → target X-2% after reminders.
+- Manual prep for finance packets: baseline hours per week → target minutes via exports.
+
+## Example KPI export
+
+<RequestExample>
+```json
+{
+  "destination": "s3",
+  "bucket": "casaai-finance-exports",
+  "path": "reports/noi-weekly.csv",
+  "kpis": ["noi", "occupancy", "delinquency_rate", "sla_cost"],
+  "schedule": "0 7 * * MON"
+}
+```
+</RequestExample>
+
+## Tips for proving ROI
+
+- Log before/after metrics for at least two weeks.
+- Start with one property and one workflow, then roll out.
+- Track both time saved (hours) and outcomes (delinquency, SLA hit rate).
+- Use activity logs to show automation volume and success/failure rates.
+

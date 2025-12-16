@@ -163,7 +163,7 @@
     "links": [
       {
         "group": "CasaAI",
-        "links": [
+        "items": [
           {
             "href": "https://casaai.dev",
             "text": "Homepage"
@@ -176,7 +176,7 @@
       },
       {
         "group": "Support",
-        "links": [
+        "items": [
           {
             "href": "mailto:support@casaai.dev",
             "text": "Email support"

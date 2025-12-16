@@ -1,0 +1,32 @@
+---
+title: "FAQs"
+description: "Answers to common CasaAI questions."
+---
+
+<AccordionGroup>
+  <Accordion title="How does pricing work?">
+    CasaAI pricing is based on active units and workflow usage (agents/runs). Contact sales for exact tiers.
+  </Accordion>
+  <Accordion title="Can I manage multiple properties?">
+    Yes. Properties and units are first-class entities. Use property IDs in APIs and dashboards for rollups.
+  </Accordion>
+  <Accordion title="Is my data secure and encrypted?">
+    Data is encrypted in transit (TLS) and at rest. Webhooks use HMAC signatures; rotate secrets regularly.
+  </Accordion>
+  <Accordion title="How do I connect data sources?">
+    Upload CSVs/Sheets, connect cloud storage (S3/Drive), or use the API (`/api/v1/properties`, `/api/v1/tenants`, `/api/v1/maintenance`).
+  </Accordion>
+  <Accordion title="Do you support webhooks?">
+    Yes. Configure `/webhooks/workflow` for screening decisions, maintenance events, and exports. Verify with `X-CasaAI-Signature`.
+  </Accordion>
+  <Accordion title="Can I export KPIs to BI tools?">
+    Use `/api/v1/financial/exports` to S3/Drive or webhook, then connect your BI tool to the destination.
+  </Accordion>
+  <Accordion title="What models power CasaAI?">
+    CasaAI uses LLM-based agents tailored for screening, maintenance classification, document parsing, and KPI summarization.
+  </Accordion>
+  <Accordion title="How do I get support?">
+    Email `support@casaai.dev`. Include run IDs or ticket IDs for faster help.
+  </Accordion>
+</AccordionGroup>
+

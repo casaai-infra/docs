@@ -1,4 +1,27 @@
 ---
-title: 'New Plant'
-openapi: 'WEBHOOK /plant/webhook'
+title: "Workflow Webhook"
+openapi: "POST /webhooks/workflow"
 ---
+
+Receive workflow events (screening decisions, maintenance dispatches, KPI exports). Verify signatures using `X-CasaAI-Signature` (HMAC-SHA256).
+
+<RequestExample>
+```json
+{
+  "type": "screening.decision",
+  "run_id": "run_123",
+  "status": "approved",
+  "payload": {
+    "tenant_id": "app_78431",
+    "score": 86,
+    "rationale": ["Income multiple 3.2x", "Credit clean"]
+  }
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 OK
+{ "received": true }
+```
+</ResponseExample>

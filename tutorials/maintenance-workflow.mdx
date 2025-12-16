@@ -1,0 +1,80 @@
+---
+title: "Creating a Maintenance Request Workflow"
+description: "Ingest requests, classify severity, dispatch vendors, and keep tenants updated."
+---
+
+## Prerequisites
+
+- Maintenance Automation module enabled.
+- Vendor pools configured with skills and coverage.
+- Notification channels (email/SMS/webhook) set up.
+
+## Steps
+
+<Steps>
+<Step title="Ingest tickets">
+  - Connect your portal/email/API to `/api/v1/maintenance`.
+  - Map fields: ticket_id, unit_id, description, photos, contact.
+  <Check>Tickets appear with “New” status.</Check>
+</Step>
+
+<Step title="Classify severity and category">
+  - Enable AI classification for severity (emergency/urgent/standard) and category (HVAC, plumbing, electrical, etc.).
+  - Add rules for safety-critical flags.
+  <Check>Tickets show severity and category tags.</Check>
+</Step>
+
+<Step title="Dispatch vendors">
+  - Set SLA by severity (e.g., emergency 4h).
+  - Assign vendor pools with availability windows.
+  - Enable auto-dispatch with confirmation requirements.
+  <Check>Vendor assigned; ETA generated.</Check>
+</Step>
+
+<Step title="Notify tenants and track status">
+  - Enable tenant notifications with acknowledgements and ETA.
+  - Log status updates and completions to CasaBoard.
+  <Check>Tenant received ETA; status updates visible.</Check>
+</Step>
+
+<Step title="Verify completion and costs">
+  - Require completion notes/photos.
+  - Capture cost/time for SLA and finance rollups.
+  <Check>Ticket closed with completion data recorded.</Check>
+</Step>
+</Steps>
+
+## Example API payload
+
+<RequestExample>
+```json POST /api/v1/maintenance
+{
+  "ticket_id": "mnt_10021",
+  "unit_id": "unit_7C",
+  "description": "Water leaking under the kitchen sink for two days",
+  "photos": ["https://files.casaai.dev/img/leak1.jpg"],
+  "priority_hint": "high"
+}
+```
+</RequestExample>
+
+## Tips
+
+- Start with manual dispatch + notifications, then enable auto-dispatch.
+- Add vendor skills and blackout windows to avoid misroutes.
+- Use webhooks to push work orders into your field ops or ticketing tool.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Vendor not assigned">
+    Check vendor pool criteria (skills/region) and SLA thresholds; ensure at least one vendor matches.
+  </Accordion>
+  <Accordion title="Photos missing">
+    Require attachments in intake forms; validate URLs are accessible.
+  </Accordion>
+  <Accordion title="Notifications delayed">
+    Confirm channel configs and webhook retries; monitor CasaBoard activity log.
+  </Accordion>
+</AccordionGroup>
+

@@ -1,0 +1,43 @@
+---
+title: "Architecture"
+description: "How CasaAI ingests data, runs agents, and delivers automations and KPIs."
+---
+
+## High-level flow
+
+```mermaid
+flowchart LR
+  dataSources[CSV/API/Cloud storage] --> ingest[Ingestion + normalization]
+  ingest --> dataLayer[Unified data layer (properties, units, tenants, tickets)]
+  dataLayer --> agents[AI agents & workflows]
+  agents --> actions[Notifications / dispatch / documents / exports]
+  dataLayer --> dashboards[CasaBoard KPIs]
+  actions --> dashboards
+  dashboards --> bi[BI/Exports/Webhooks]
+```
+
+## Components
+
+- Ingestion: CSV uploads, REST API, and cloud storage (S3/Drive). Normalizes properties, units, tenants, payments, documents, and tickets.
+- AI agents: Screening, maintenance, rent reminders, finance KPIs, and document generation/parsing.
+- Orchestration: Workflows route tasks, apply rules, and call vendors/webhooks.
+- Outputs: Notifications, vendor dispatches, documents, KPI dashboards, and exports to BI.
+
+## Data ingestion
+
+- CSV/Spreadsheet: Upload PMS exports; map columns to CasaAI entities.
+- API: `POST /api/v1/properties`, `/api/v1/tenants`, `/api/v1/maintenance`, `/api/v1/financial/exports`.
+- Cloud storage: Watch folders for documents (leases/receipts) and tickets with attachments.
+
+## Security
+
+- Auth: Bearer tokens on all API calls.
+- Webhooks: `X-CasaAI-Signature` HMAC-SHA256 verification.
+- Data: Encryption in transit (TLS). At-rest encryption on storage.
+
+## Observability
+
+- Activity log for workflow runs, notifications, and dispatches.
+- CasaBoard for SLA, delinquency, occupancy, and agent performance.
+- Webhook retries with exponential backoff and status codes.
+

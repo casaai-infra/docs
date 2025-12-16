@@ -1,0 +1,121 @@
+---
+title: "SDK Examples"
+description: "Quick-start snippets for calling CasaAI APIs in JavaScript and Python."
+---
+
+## Authentication
+
+Include your API key in the `Authorization` header:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+## JavaScript (fetch)
+
+<CodeGroup>
+```javascript sdk.js
+const API_BASE = 'https://api.casaai.dev';
+const API_KEY = process.env.CASAAI_API_KEY;
+
+async function listProperties() {
+  const res = await fetch(`${API_BASE}/api/v1/properties`, {
+    headers: { Authorization: `Bearer ${API_KEY}` }
+  });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
+
+async function createMaintenance(ticket) {
+  const res = await fetch(`${API_BASE}/api/v1/maintenance`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify(ticket)
+  });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
+```
+</CodeGroup>
+
+## Python (requests)
+
+<CodeGroup>
+```python sdk.py
+import os, requests
+
+API_BASE = "https://api.casaai.dev"
+API_KEY = os.environ["CASAAI_API_KEY"]
+HEADERS = {"Authorization": f"Bearer {API_KEY}"}
+
+def run_workflow(payload: dict):
+    res = requests.post(f"{API_BASE}/api/v1/workflows/run", json=payload, headers=HEADERS, timeout=15)
+    res.raise_for_status()
+    return res.json()
+
+def schedule_export(config: dict):
+    res = requests.post(f"{API_BASE}/api/v1/financial/exports", json=config, headers=HEADERS, timeout=15)
+    res.raise_for_status()
+    return res.json()
+```
+</CodeGroup>
+
+## Example payloads
+
+<Tabs>
+<Tab title="Maintenance ticket">
+
+```json
+{
+  "ticket_id": "mnt_10021",
+  "unit_id": "unit_7C",
+  "description": "Water leaking under the kitchen sink",
+  "photos": ["https://files.casaai.dev/img/leak1.jpg"]
+}
+```
+
+</Tab>
+<Tab title="Workflow run">
+
+```json
+{
+  "type": "screening",
+  "payload": {
+    "tenant_id": "app_78431",
+    "unit_id": "unit_12A",
+    "income_docs": ["https://files.casaai.dev/paystub.pdf"]
+  },
+  "ruleset": "standard_v1"
+}
+```
+
+</Tab>
+<Tab title="KPI export">
+
+```json
+{
+  "destination": "s3",
+  "bucket": "casaai-finance-exports",
+  "path": "reports/noi-weekly.csv",
+  "kpis": ["noi", "occupancy", "delinquency_rate"],
+  "schedule": "0 7 * * MON"
+}
+```
+
+</Tab>
+</Tabs>
+
+## Webhook verification (Node)
+
+```javascript verify-signature.js
+import crypto from 'crypto';
+
+function verifySignature(rawBody, signature, secret) {
+  const expected = 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+}
+```
+

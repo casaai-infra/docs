@@ -1,0 +1,42 @@
+---
+title: "Troubleshooting"
+description: "Common CasaAI issues and quick fixes."
+---
+
+<AccordionGroup>
+  <Accordion title="Data import failed">
+    - Ensure CSV headers match expected fields (tenant_id, unit_id, rent_amount, status).<br/>
+    - Remove hidden characters and re-upload.<br/>
+    - Check file size and encoding (UTF-8).
+  </Accordion>
+  <Accordion title="Webhook not firing or 401">
+    - Verify HTTPS endpoint and shared secret.<br/>
+    - Return 2xx to acknowledge; CasaAI retries with backoff.<br/>
+    - Check IP allowlists and firewall rules.
+  </Accordion>
+  <Accordion title="Agent training slow or stuck">
+    - Start with a smaller labeled set, then expand.<br/>
+    - Confirm stable network and retry.<br/>
+    - Check activity log for errors.
+  </Accordion>
+  <Accordion title="Notifications not sending">
+    - Validate channel credentials (email/SMS/webhook).<br/>
+    - Inspect activity log for bounce or delivery errors.<br/>
+    - Re-run the workflow after fixing credentials.
+  </Accordion>
+  <Accordion title="KPI export mismatch">
+    - Verify chart of accounts mapping and data freshness.<br/>
+    - Re-run export after latest sync completes.<br/>
+    - Confirm timezone in schedules.
+  </Accordion>
+  <Accordion title="Maintenance ticket unassigned">
+    - Ensure vendor pools match category/region.<br/>
+    - Check SLA rules and availability windows.<br/>
+    - Temporarily allow manual assignment to debug.
+  </Accordion>
+</AccordionGroup>
+
+## Need help?
+
+Email `support@casaai.dev` with run IDs or ticket IDs for faster triage.
+

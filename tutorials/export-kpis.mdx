@@ -1,0 +1,74 @@
+---
+title: "Exporting Financial KPIs to Excel/BI Tools"
+description: "Configure CasaAI exports and webhooks to deliver NOI, occupancy, and delinquency KPIs."
+---
+
+## Prerequisites
+
+- Financial Reporting and Dashboard & Insights modules enabled.
+- Chart of accounts mapped; KPIs configured (NOI, occupancy, delinquency).
+- Destination ready: S3/Drive folder or webhook endpoint for BI.
+
+## Steps
+
+<Steps>
+<Step title="Select KPIs">
+  - Open CasaBoard > Exports and choose KPIs (NOI, occupancy, delinquency_rate, SLA_cost).
+  <Check>KPIs selected and saved.</Check>
+</Step>
+
+<Step title="Choose destination">
+  - Pick S3/Drive (file) or webhook (stream) for BI tools.
+  - For webhooks, provide HTTPS URL and shared secret header.
+  <Check>Destination validated.</Check>
+</Step>
+
+<Step title="Schedule exports">
+  - Set cadence (daily/weekly) and time zone.
+  - Enable retries on failure.
+  <Check>Next run scheduled.</Check>
+</Step>
+
+<Step title="Test a run">
+  - Trigger a manual export.
+  - Verify file delivery or webhook 200 OK.
+  <Check>Test payload received at destination.</Check>
+</Step>
+
+<Step title="Connect BI">
+  - Point Power BI/Tableau/Looker to the S3/Drive path or webhook sink.
+  - Apply your visuals on top of the CasaAI dataset.
+  <Check>Dashboard refresh succeeds.</Check>
+</Step>
+</Steps>
+
+## Example export config
+
+<RequestExample>
+```json POST /api/v1/financial/exports
+{
+  "destination": "s3",
+  "bucket": "casaai-finance-exports",
+  "path": "reports/noi-weekly.csv",
+  "kpis": ["noi", "occupancy", "delinquency_rate", "sla_cost"],
+  "schedule": "0 7 * * MON",
+  "timezone": "America/New_York",
+  "retry": { "max_attempts": 3, "backoff_seconds": 30 }
+}
+```
+</RequestExample>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Export not delivered">
+    Check destination credentials and path. For webhooks, confirm HTTPS and 200 response; review retries.
+  </Accordion>
+  <Accordion title="KPI mismatch">
+    Verify COA mapping and data freshness; rerun after sync completes.
+  </Accordion>
+  <Accordion title="BI refresh failing">
+    Confirm the dataset path/URL hasn’t changed and credentials are valid; test with a manual export.
+  </Accordion>
+</AccordionGroup>
+

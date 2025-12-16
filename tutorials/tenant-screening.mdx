@@ -1,0 +1,89 @@
+---
+title: "Automating Tenant Screening in 10 Minutes"
+description: "Upload applicants, verify documents, and generate a decision summary with CasaAI."
+---
+
+## Prerequisites
+
+- Node/dash access to CasaAI with Tenant Screening enabled.
+- Data: applicant CSV or form submissions with ID and income docs.
+- Notification channel set (email/SMS/webhook).
+
+## Steps
+
+<Steps>
+<Step title="Upload applicants">
+  - Go to Tenant Screening and upload CSV (name, contact, unit, income, ID links) or push via `/api/v1/tenants`.
+  - Confirm columns map to required fields.
+  <Check>Applicants appear with “Pending screening”.</Check>
+</Step>
+
+<Step title="Configure screening rules">
+  - Set income multiple, credit rules, rental history checks.
+  - Define routing: approver, SLA, and notifications.
+  <Tip>Use templates for consistent scoring across properties.</Tip>
+</Step>
+
+<Step title="Attach documents">
+  - Add ID and income docs (paystubs/bank statements) or links to cloud storage.
+  - CasaAI parses docs and extracts income and identity fields.
+  <Check>Document status shows “Verified” or “Review”.</Check>
+</Step>
+
+<Step title="Run screening">
+  - Click **Run screening** or POST to `/api/v1/workflows/screen`.
+  - AI generates a score, rationale, and decision (approve/conditional/decline).
+  <Check>Decision summary generated with rationale and next steps.</Check>
+</Step>
+
+<Step title="Notify and archive">
+  - Send decisions to applicants and internal approvers via email/SMS/webhook.
+  - Archive the summary and parsed fields for audit.
+  <Check>Notifications sent and audit log recorded.</Check>
+</Step>
+</Steps>
+
+## Example API call
+
+<RequestExample>
+```json POST /api/v1/workflows/screen
+{
+  "tenant_id": "app_78431",
+  "unit_id": "unit_12A",
+  "id_doc": "https://files.casaai.dev/id-front.png",
+  "income_docs": ["https://files.casaai.dev/paystub.pdf"],
+  "ruleset": "standard_v1"
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json Screening result
+{
+  "tenant_id": "app_78431",
+  "status": "approved",
+  "score": 86,
+  "rationale": [
+    "Income multiple 3.2x threshold",
+    "Credit signals clean",
+    "No outstanding maintenance debt"
+  ],
+  "next_steps": ["Send lease packet", "Collect deposit"]
+}
+```
+</ResponseExample>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Document parsing failed">
+    Re-upload with higher resolution; ensure PDF/text is readable. Verify links are accessible.
+  </Accordion>
+  <Accordion title="Missing required fields">
+    Confirm CSV headers include tenant_id, unit_id, contact, income, and ID docs.
+  </Accordion>
+  <Accordion title="Notifications not sending">
+    Check channel settings and webhook secrets; retry after fixing credentials.
+  </Accordion>
+</AccordionGroup>
+

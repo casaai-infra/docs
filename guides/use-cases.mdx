@@ -1,0 +1,71 @@
+---
+title: "Use Case Library"
+description: "Practical CasaAI scenarios with setup steps, expected outcomes, and metrics."
+---
+
+## Overview
+
+Use these examples to model your own automations. Each scenario includes data inputs, configuration, and the outcomes to verify.
+
+## Small portfolio manager (tenant screening + rent reminders)
+
+- Goal: Reduce screening time and improve on-time payments for <50 units.
+- Data: Applicants CSV, rent schedules, tenant contacts.
+- Steps:
+  1. Connect tenant/applicant CSVs and rent schedules.
+  2. Enable the Tenant Screening agent with credit/income checks.
+  3. Turn on Rent Collection reminders (pre-due, due, grace).
+  4. Configure webhook/email for approval notices and receipts.
+- Outcome:
+  - Screening decision summary per applicant.
+  - Automated reminders and receipt logs.
+  - Reduced delinquency and faster approvals.
+
+## Enterprise real estate firm (fleet-wide KPIs + anomaly detection)
+
+- Goal: Portfolio-wide visibility and alerts across hundreds of properties.
+- Data: PMS exports, payment feeds, maintenance tickets, finance CSVs.
+- Steps:
+  1. Set up scheduled data sync (API or S3 folder) for rents, expenses, tickets.
+  2. Enable Financial Reporting KPIs (NOI, occupancy, delinquency) in CasaBoard.
+  3. Turn on anomaly alerts for delinquency spikes, SLA breaches, and expense outliers.
+  4. Export KPIs to BI tools via webhook or scheduled CSV.
+- Outcome:
+  - Executive dashboard with KPIs and alerts.
+  - Faster detection of anomalies and SLA breaches.
+  - Data feeds ready for BI consumption.
+
+## Property manager (maintenance requests + document parsing)
+
+- Goal: Automate maintenance triage and keep documents structured.
+- Data: Maintenance tickets (portal/email/API) with photos; leases/receipts PDFs.
+- Steps:
+  1. Ingest maintenance tickets via API or email forward; map unit IDs and photos.
+  2. Enable Maintenance Automation agent with SLA rules and vendor pools.
+  3. Configure Document Parsing for leases/receipts to extract tenant, unit, amounts.
+  4. Send work orders via webhook to your ticketing/field ops tool.
+- Outcome:
+  - Classified and dispatched tickets with ETAs.
+  - Tenant updates sent automatically.
+  - Parsed documents stored as structured data for search/audit.
+
+## Data analysts (export AI-generated insights to BI tools)
+
+- Goal: Deliver finance and ops KPIs to BI with minimal manual prep.
+- Data: Rent/expense CSVs, maintenance tickets, occupancy data.
+- Steps:
+  1. Enable Financial Reporting and Dashboard & Insights modules.
+  2. Define KPI exports (NOI, occupancy, delinquency, SLA performance).
+  3. Configure webhook or S3 export; schedule weekly/daily runs.
+  4. Connect your BI tool (Power BI/Tableau/Looker) to the export location.
+- Outcome:
+  - Scheduled KPI datasets available to BI.
+  - Consistent definitions and COA mapping.
+  - Reduced manual spreadsheet prep.
+
+## Verification checklist
+
+- Each scenario has a passing status in CasaBoard.
+- Webhooks or exports deliver without errors.
+- KPIs match expected values after mapping and reconciliation.
+

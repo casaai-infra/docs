@@ -1,28 +1,25 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "CasaAI API"
+description: "Access CasaAI data, agents, workflows, and webhooks programmatically."
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Use the CasaAI API to manage properties, tenants, maintenance requests, workflows, and agents, and to export KPIs. Base URL: `https://api.casaai.dev`.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="OpenAPI (CasaAI)"
+  icon="terminal"
+  href="/api-reference/openapi.json"
 >
-  View the OpenAPI specification file
+  View the CasaAI OpenAPI specification
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+- Bearer token in the `Authorization` header: `Authorization: Bearer YOUR_API_KEY`.
+- Obtain API keys from your CasaAI workspace settings.
+- All endpoints in this spec require authentication unless otherwise noted.
 
 ```json
 "security": [
@@ -31,3 +28,33 @@ All API endpoints are authenticated using Bearer tokens and picked up from the s
   }
 ]
 ```
+
+## Rate limiting
+
+- Default: 1000 requests / 15 minutes per workspace (subject to change).
+- 429 responses include `Retry-After` header.
+
+## Errors
+
+- Errors return JSON with `error.code`, `error.message`, and optional `details`.
+- Common codes: `invalid_request`, `unauthorized`, `forbidden`, `not_found`, `rate_limited`, `internal_error`.
+
+## Resources
+
+- `/api/v1/properties` – manage properties and units
+- `/api/v1/tenants` – manage tenants and applications
+- `/api/v1/maintenance` – create and track maintenance tickets
+- `/api/v1/workflows` – run automations (screening, maintenance, reminders)
+- `/api/v1/agents` – configure AI agents and templates
+- `/api/v1/financial` – retrieve finance KPIs and exports
+- `/api/v1/documents` – generate and parse documents
+
+## Webhooks
+
+- Configure webhooks for workflow runs, maintenance events, screening decisions, and exports.
+- Verify with shared secret in `X-CasaAI-Signature` header (HMAC-SHA256).
+
+## Versioning
+
+- Current version: `v1` via URL prefix.
+- Backwards-compatible changes may add fields; avoid strict field allowlists on responses.

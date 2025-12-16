@@ -1,0 +1,47 @@
+---
+title: "Integrations"
+description: "Connect CasaAI to PMS, CRM, accounting, storage, and portals."
+---
+
+## Data sources
+
+- CSV/Spreadsheets: PMS exports for tenants, units, leases, payments.
+- Cloud storage: S3/Drive for documents (leases, receipts, photos).
+- API: Use `/api/v1/properties`, `/api/v1/tenants`, `/api/v1/maintenance` for continuous sync.
+
+## Automation hooks
+
+- Webhooks: `/webhooks/workflow` for screening decisions, maintenance events, KPI exports.
+- Exports: `/api/v1/financial/exports` to S3/Drive/webhook.
+- Notifications: Email/SMS/webhook for tenant and vendor comms.
+
+## Common integrations
+
+- CRM/Helpdesk: Push decisions and tickets via webhook.
+- Accounting: Send ledger updates and KPI exports to S3/Drive for ingestion by accounting tools.
+- Portals: Embed CasaBoard metrics or webhook feeds for tenant/owner portals.
+
+## Example webhook verification
+
+<CodeGroup>
+```bash curl
+curl -X POST https://example.com/webhooks/workflow \
+  -H "X-CasaAI-Signature: sha256=abcd..." \
+  -H "Content-Type: application/json" \
+  -d '{ "type": "screening.decision", "status": "approved" }'
+```
+
+```python verify.py
+import hmac, hashlib
+
+def verify(sig_header, payload, secret):
+    expected = "sha256=" + hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(sig_header, expected)
+```
+</CodeGroup>
+
+## Embedding dashboards
+
+- Export KPIs to S3/Drive and surface via BI embeds (Tableau/Power BI/Looker).
+- Use webhook streams for near-real-time dashboards in portals.
+

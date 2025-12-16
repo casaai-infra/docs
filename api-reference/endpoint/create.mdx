@@ -1,4 +1,30 @@
 ---
-title: 'Create Plant'
-openapi: 'POST /plants'
+title: "Create Maintenance Ticket"
+openapi: "POST /api/v1/maintenance"
 ---
+
+Create a maintenance ticket with description and optional photos. CasaAI will classify severity and category, then dispatch according to your rules.
+
+<RequestExample>
+```json
+{
+  "ticket_id": "mnt_10021",
+  "unit_id": "unit_7C",
+  "description": "Water leaking under the kitchen sink for two days",
+  "photos": ["https://files.casaai.dev/img/leak1.jpg"],
+  "priority_hint": "high"
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 OK
+{
+  "ticket_id": "mnt_10021",
+  "unit_id": "unit_7C",
+  "description": "Water leaking under the kitchen sink for two days",
+  "severity": "urgent",
+  "vendor_assigned": "vendor_plumb_pro"
+}
+```
+</ResponseExample>
