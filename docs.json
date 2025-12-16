@@ -165,12 +165,12 @@
         "group": "CasaAI",
         "items": [
           {
-            "href": "https://casaai.dev",
-            "text": "Homepage"
+            "label": "Homepage",
+            "href": "https://casaai.dev"
           },
           {
-            "href": "https://docs.casaai.dev",
-            "text": "Documentation"
+            "label": "Documentation",
+            "href": "https://docs.casaai.dev"
           }
         ]
       },
@@ -178,8 +178,8 @@
         "group": "Support",
         "items": [
           {
-            "href": "mailto:support@casaai.dev",
-            "text": "Email support"
+            "label": "Email support",
+            "href": "mailto:support@casaai.dev"
           }
         ]
       }
