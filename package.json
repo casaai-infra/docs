@@ -1,0 +1,12 @@
+{
+  "name": "casaai-docs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx mint dev"
+  },
+  "engines": {
+    "node": ">=18 <25"
+  }
+}
+

@@ -1,0 +1,68 @@
+---
+title: "Financial Reporting"
+description: "Auto-generate P&L, cash flow, and KPI dashboards with exports."
+---
+
+## What it does
+
+- Aggregates rent, expenses, and fees across properties and units.
+- Generates P&L, cash flow, and custom KPI dashboards.
+- Exports data to CSV, Excel, or BI tools and supports webhooks.
+
+## Why it matters
+
+- Eliminate manual spreadsheet consolidation.
+- Give finance teams consistent, auditable numbers.
+- Provide leaders live visibility into NOI, occupancy, and delinquency.
+
+## How it works
+
+<Steps>
+<Step title="Ingest finance data">
+  Import rent rolls, expenses, and fees from CSV/API. Map to chart of accounts and properties.
+</Step>
+<Step title="Calculate KPIs">
+  AI standardizes categories, detects anomalies, and computes metrics (NOI, occupancy, delinquency, maintenance SLA cost).
+</Step>
+<Step title="Deliver outputs">
+  View dashboards in CasaBoard or export to BI tools and spreadsheets on a schedule or via webhook.
+</Step>
+</Steps>
+
+## Configuration checklist
+
+- Chart of accounts mapping and KPI definitions.
+- Refresh cadence (hourly/daily) and data sources.
+- Export destinations: email, S3, Excel/Sheets, Power BI/Tableau via webhook.
+
+## Example export setup
+
+<RequestExample>
+```json KPI export
+{
+  "destination": "s3",
+  "bucket": "casaai-finance-exports",
+  "path": "reports/noi-weekly.csv",
+  "kpis": ["noi", "occupancy", "delinquency_rate"],
+  "schedule": "0 7 * * MON"
+}
+```
+</RequestExample>
+
+## Metrics covered
+
+- NOI, revenue, and expense rollups.
+- Occupancy and renewal rates.
+- Delinquency and recovery rates.
+- Maintenance SLA cost impact.
+
+## Diagram
+
+```mermaid
+flowchart TD
+  financeData[Rent & expense data] --> normalize[Normalize + map COA]
+  normalize --> metrics[Compute KPIs]
+  metrics --> dashboard[CasaBoard finance dashboards]
+  metrics --> exports[Exports (CSV/Excel/BI/webhook)]
+```
+

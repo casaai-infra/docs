@@ -1,0 +1,52 @@
+---
+title: "Live Dashboard & Insights"
+description: "CasaBoard provides real-time portfolio metrics, anomalies, and agent activity."
+---
+
+## What it does
+
+- Consolidates KPIs across properties: occupancy, delinquency, SLAs, and NOI.
+- Surfaces anomalies and trends using AI.
+- Shows agent activity, runs, and success/failure rates.
+
+## Why it matters
+
+- Single source of truth for operations and finance.
+- Faster decisions with live data and alerts.
+- Transparency into automation performance.
+
+## How it works
+
+<Steps>
+<Step title="Aggregate data">
+  Pulls ingested data (tenants, payments, tickets, documents) and reconciled outputs from agents.
+</Step>
+<Step title="Compute KPIs and anomalies">
+  AI computes portfolio KPIs, flags unusual trends, and highlights SLA breaches.
+</Step>
+<Step title="Visualize and export">
+  View dashboards, download CSVs/PNGs, or send metrics to BI tools and portals.
+</Step>
+</Steps>
+
+## Key dashboards
+
+- Occupancy, renewals, and delinquency trends.
+- Maintenance SLA performance and vendor throughput.
+- Financial KPIs (NOI, expenses, recoveries).
+- Agent performance (runs, success rate, latency).
+
+## Diagram
+
+```mermaid
+flowchart TD
+  data[Unified data layer] --> kpis[KPI + anomaly engine]
+  kpis --> dashboard[CasaBoard dashboards]
+  dashboard --> exports[Exports (CSV/BI/portal embeds)]
+```
+
+## Tips
+
+- Pin the KPIs that match your portfolio targets (e.g., occupancy >95%, SLA <24h).
+- Enable anomaly alerts to catch delinquency spikes or vendor delays early.
+

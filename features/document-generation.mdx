@@ -1,0 +1,72 @@
+---
+title: "Document Generation & Parsing"
+description: "AI creates and parses leases, notices, and reports using your templates and data."
+---
+
+## What it does
+
+- Auto-fills leases, notices, and summaries from templates and property data.
+- Parses uploaded PDFs to extract structured fields for tenants, units, and payments.
+- Maintains version history and auditability.
+
+## Why it matters
+
+- Save time on repetitive document prep.
+- Reduce errors and rework with consistent templates.
+- Keep structured data in sync with your source of truth.
+
+## How it works
+
+<Steps>
+<Step title="Ingest templates and docs">
+  Upload templates (DOCX/PDF) and specify merge fields. Upload PDFs to parse (leases, receipts, inspections).
+</Step>
+<Step title="Generate outputs">
+  AI fills templates with unit, tenant, and payment data; adds clauses based on rules; and produces PDFs.
+</Step>
+<Step title="Route and store">
+  Send documents to tenants, vendors, or storage (Drive/S3). Store parsed fields for search and reporting.
+</Step>
+</Steps>
+
+## Configuration checklist
+
+- Template fields mapped to properties, units, tenants, rent schedules, and clauses.
+- Approval routing for generated documents.
+- Storage destination and retention rules.
+
+## Example generation request
+
+<RequestExample>
+```json Lease generation
+{
+  "template_id": "tpl_lease_v3",
+  "tenant_id": "tenant_45",
+  "unit_id": "unit_9A",
+  "clauses": ["pet_addendum", "parking"],
+  "output_format": "pdf"
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json Lease output
+{
+  "document_id": "doc_1209",
+  "status": "generated",
+  "url": "https://files.casaai.dev/leases/doc_1209.pdf",
+  "checksum": "5f8c1d..."
+}
+```
+</ResponseExample>
+
+## Diagram
+
+```mermaid
+flowchart TD
+  templates[Templates + PDFs] --> generate[AI fill + parse]
+  generate --> outputs[Signed PDFs + structured fields]
+  outputs --> storage[Storage (Drive/S3)]
+  outputs --> webhooks[Webhooks / API consumers]
+```
+

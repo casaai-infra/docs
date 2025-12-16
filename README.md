@@ -1,44 +1,113 @@
-# Mintlify Starter Kit
+# CasaAI Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+CasaAI docs live at [https://docs.casaai.dev](https://docs.casaai.dev). Use this repo to preview docs locally with Mintlify.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Requirements
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+- **Node.js**: Version >= 18 and < 25 (Node 25+ is not supported by `mint dev`)
+- **Recommended**: Node 22 LTS (specified in `.nvmrc`)
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+## First-time Setup
 
-## Development
+If you're using Node 25+ or don't have Node 22 installed:
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+### Option 1: Using nvm (Recommended)
 
+1. **Install nvm** (if not already installed):
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+   ```
+
+2. **Restart your terminal** or source your shell config:
+   ```bash
+   source ~/.zshrc  # or ~/.bashrc
+   ```
+
+3. **Install and use Node 22**:
+   ```bash
+   cd /Users/ayushsharma/Desktop/CasaAI/docs
+   nvm install 22
+   nvm use 22
+   ```
+
+   Or simply run the setup script:
+   ```bash
+   bash setup-node.sh
+   ```
+
+### Option 2: Manual Installation
+
+Download and install Node.js 22 LTS from [nodejs.org](https://nodejs.org/).
+
+## Quick Local Preview
+
+Once you have Node 22 active:
+
+```bash
+# From the repo root
+nvm use           # Automatically uses version from .nvmrc (22.12.0)
+npm run dev       # Runs `npx mint dev`
 ```
-npm i -g mint
-```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+Then open `http://localhost:3000` in your browser.
 
-```
+<Note>
+If `nvm use` prompts you to install Node 22, type `y` to proceed.
+</Note>
+
+### Alternative: Using Global CLI
+
+If you prefer using the global Mintlify CLI:
+
+```bash
+npm install -g mint
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+## Troubleshooting
 
-## Publishing changes
+### "mint dev is not supported on node versions 25+"
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+**Solution**: Switch to Node 22 using nvm:
+```bash
+nvm use 22
+# If Node 22 isn't installed:
+nvm install 22 && nvm use 22
+```
 
-## Need help?
+### Port Already in Use
 
-### Troubleshooting
+Use a different port:
+```bash
+npm run dev -- --port 3333
+```
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+### nvm Command Not Found
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
-- [Mintlify community](https://mintlify.com/community)
+Make sure nvm is loaded in your shell. Add to `~/.zshrc` (or `~/.bashrc`):
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+Then restart your terminal or run `source ~/.zshrc`.
+
+### Stale CLI Version
+
+Update the global CLI or use npx (which always uses latest):
+```bash
+npm update -g mint
+# Or just use: npm run dev (uses npx)
+```
+
+## Development Workflow
+
+1. Make changes to `.mdx` files in the docs directory
+2. Preview automatically updates at `http://localhost:3000`
+3. Commit and push changes to deploy
+
+## Deployment
+
+Changes are automatically deployed when pushed to the default branch (if Mintlify GitHub app is installed).
+
+For manual deployment, see [Mintlify deployment docs](https://mintlify.com/docs/deployment).

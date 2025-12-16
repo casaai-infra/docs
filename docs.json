@@ -1,57 +1,69 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "CasaAI Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#2563EB",
+    "light": "#60A5FA",
+    "dark": "#1D4ED8"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Getting Started",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Introduction",
             "pages": [
               "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "what-is-casaai",
+              "quickstart"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Features",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Automation Modules",
+            "pages": [
+              "features/tenant-onboarding",
+              "features/rent-collection",
+              "features/maintenance-automation",
+              "features/financial-reporting",
+              "features/document-generation",
+              "features/dashboard-insights"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Workflows",
+            "pages": [
+              "guides/onboarding-workflow",
+              "guides/use-cases"
+            ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": [
+              "tutorials/tenant-screening",
+              "tutorials/maintenance-workflow",
+              "tutorials/export-kpis"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
@@ -66,24 +78,50 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Developers",
+        "groups": [
+          {
+            "group": "Technical",
+            "pages": [
+              "technical/architecture",
+              "technical/integrations",
+              "technical/sdk"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Support",
+        "groups": [
+          {
+            "group": "Help Center",
+            "pages": [
+              "support/faq",
+              "support/troubleshooting",
+              "support/metrics-roi"
+            ]
+          }
+        ]
       }
     ],
     "global": {
       "anchors": [
         {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://docs.casaai.dev",
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Homepage",
+          "href": "https://casaai.dev",
+          "icon": "house"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Support",
+          "href": "mailto:support@casaai.dev",
+          "icon": "lifebuoy"
         }
       ]
     }
@@ -95,14 +133,18 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Docs",
+        "href": "https://docs.casaai.dev"
+      },
+      {
+        "label": "CasaAI Homepage",
+        "href": "https://casaai.dev"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "https://casaai.dev"
     }
   },
   "contextual": {
@@ -118,10 +160,34 @@
    ]
   },
   "footer": {
+    "links": [
+      {
+        "group": "CasaAI",
+        "links": [
+          {
+            "href": "https://casaai.dev",
+            "text": "Homepage"
+          },
+          {
+            "href": "https://docs.casaai.dev",
+            "text": "Documentation"
+          }
+        ]
+      },
+      {
+        "group": "Support",
+        "links": [
+          {
+            "href": "mailto:support@casaai.dev",
+            "text": "Email support"
+          }
+        ]
+      }
+    ],
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/casaai",
+      "github": "https://github.com/casaai",
+      "linkedin": "https://linkedin.com/company/casaai"
     }
   }
 }

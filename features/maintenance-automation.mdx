@@ -1,0 +1,79 @@
+---
+title: "Maintenance Workflow Automation"
+description: "AI triages maintenance requests, enriches tickets, and dispatches vendors with SLAs."
+---
+
+## What it does
+
+- Classifies tickets by severity, category, and location.
+- Extracts structured details (issue, unit, photos, tenant contact).
+- Dispatches vendors based on rules, availability, and SLAs.
+- Keeps tenants updated with status and ETAs.
+
+## Why it matters
+
+- Reduce manual triage time and misrouting.
+- Improve SLA adherence and tenant satisfaction.
+- Keep a clean audit trail across vendors and properties.
+
+## How it works
+
+<Steps>
+<Step title="Ingest requests">
+  Accept requests from portals, email, forms, or `/api/v1/maintenance`. Parse text and attachments into structured fields.
+</Step>
+<Step title="Classify and enrich">
+  AI labels severity, category, required skills, and recommended vendor pool. Flags safety-critical issues.
+</Step>
+<Step title="Dispatch and notify">
+  Send work orders to vendors, set SLAs, and update tenants with acknowledgements and ETAs.
+</Step>
+</Steps>
+
+## Configuration checklist
+
+- Vendor pools with skills and coverage areas.
+- SLA policies by severity (e.g., emergency 4h, standard 48h).
+- Notification templates for tenant updates and vendor instructions.
+- Webhook or ticketing destinations for work orders.
+
+## Example ticket payload
+
+<RequestExample>
+```json Maintenance request
+{
+  "ticket_id": "mnt_10021",
+  "unit_id": "unit_7C",
+  "description": "Water leaking under the kitchen sink for two days",
+  "photos": ["https://files.casaai.dev/img/leak1.jpg"],
+  "priority_hint": "high"
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json Dispatch decision
+{
+  "ticket_id": "mnt_10021",
+  "classification": {
+    "severity": "urgent",
+    "category": "plumbing"
+  },
+  "vendor_assigned": "vendor_plumb_pro",
+  "eta_hours": 6,
+  "tenant_update": "Plumber scheduled today by 5pm. Please confirm access."
+}
+```
+</ResponseExample>
+
+## Diagram
+
+```mermaid
+flowchart TD
+  intake[Requests (portal/email/API)] --> parse[AI parsing + enrichment]
+  parse --> classify[Severity + category]
+  classify --> dispatch[Vendor dispatch + SLA]
+  dispatch --> notifyTenant[Tenant notifications]
+  dispatch --> dashboard[CasaBoard SLA metrics]
+```
+
